@@ -53,11 +53,11 @@ void intertionSort(inputTextStruct * structInput, int structInputLength, bool is
 
                 while(compareOne == compareTwo){
                     c++;
-                    compareOne = structInput[counter].className[c];
-                    compareTwo = structInput[keyPosition].className[c];
                     if ((c == structInput[counter].className.length()) && (c == structInput[keyPosition].className.length())){
                         break;
                     }
+                    compareOne = structInput[counter].className[c];
+                    compareTwo = structInput[keyPosition].className[c];
                 }
 
                 // Swaping two with condition
@@ -85,11 +85,11 @@ void intertionSort(inputTextStruct * structInput, int structInputLength, bool is
 
                         while(compareOne == compareTwo){
                             c++;
-                            compareOne = structInput[counter].name[c];
-                            compareTwo = structInput[keyPosition].name[c];
                             if ((c == structInput[counter].name.length()) && (c == structInput[keyPosition].name.length())){
                                 break;
                             }
+                            compareOne = structInput[counter].name[c];
+                            compareTwo = structInput[keyPosition].name[c];
                         }
 
                         // Swaping two with condition
@@ -141,7 +141,7 @@ void intertionSort(inputTextStruct * structInput, int structInputLength, bool is
 
 void combineElementsWithFilter(inputTextStruct * structInput, int lowestValue, int highestValue, int middleValue){
     int i, j, k;
-    inputTextStruct temp[highestValue-lowestValue+1];
+    inputTextStruct *temp = new inputTextStruct[highestValue-lowestValue+1];
     i = lowestValue;
     k = 0;
     j = middleValue + 1;
@@ -200,11 +200,12 @@ void combineElementsWithFilter(inputTextStruct * structInput, int lowestValue, i
         structInput[i].rarity = temp[i-lowestValue].rarity;
         structInput[i].set = temp[i-lowestValue].set;
     }
+    delete [] temp;
 }
 
 void combineElementsWithFull(inputTextStruct * structInput, int lowestValue, int highestValue, int middleValue){
     int i, j, k;
-    inputTextStruct temp[highestValue-lowestValue+1];
+    inputTextStruct *temp = new inputTextStruct[highestValue-lowestValue+1];
     i = lowestValue;
     k = 0;
     j = middleValue + 1;
@@ -249,18 +250,8 @@ void combineElementsWithFull(inputTextStruct * structInput, int lowestValue, int
                 k++;
                 j++;
             }else if( compareOne == compareTwo){
-                char compareOne = structInput[i].name[c];
-                char compareTwo = structInput[j].name[c];
-
-                while(compareOne == compareTwo){
-                    c++;
-                    compareOne = structInput[i].name[c];
-                    compareTwo = structInput[j].name[c];
-                    if ((c == structInput[i].name.length()) && (c == structInput[j].name.length())){
-                        break;
-                    }
-                }
-                if (compareOne > compareTwo){
+              
+                if (structInput[i].name > structInput[j].name){
                     temp[k].type = structInput[j].type;
                     temp[k].className = structInput[j].className;
                     temp[k].cost = structInput[j].cost;
@@ -332,6 +323,7 @@ void combineElementsWithFull(inputTextStruct * structInput, int lowestValue, int
         structInput[i].rarity = temp[i-lowestValue].rarity;
         structInput[i].set = temp[i-lowestValue].set;
     }
+    delete [] temp;
 }
 
 

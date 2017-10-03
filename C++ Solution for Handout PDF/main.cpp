@@ -38,7 +38,7 @@ int main(int argc, const char * argv[]) {
 
     file.close();
     file.open(inputFileName);
-    inputTextStruct *textStruct = new inputTextStruct[size+1];
+    inputTextStruct *textStruct = new inputTextStruct[size];
     // This whole while splits the string from line. Puts those splited substrings to array(inputArray)
     while (getline(file, line)){
         int k;
@@ -109,13 +109,24 @@ int main(int argc, const char * argv[]) {
         letsSort.fullShort(textStruct,size);
     }
 
-    for(int i=0;i<size;i++){
-        cout << textStruct[i].className << " - " << textStruct[i].cost<< " - "<< textStruct[i].name << endl;
+
+
+    ofstream myfile(outputFileName);
+
+    if (myfile.is_open())
+    {
+      for(int i=0;i<size;i++){
+          myfile << textStruct[i].name << "\t" << textStruct[i].className << "\t" << textStruct[i].cost << "\t" << textStruct[i].type << "\t" << textStruct[i].set << "\t" << textStruct[i].cost << endl;
+      }
+      myfile.close();
     }
+    // for(int i=0;i<size;i++){
+    //     cout << textStruct[i].className << " - " << textStruct[i].cost<< " - "<< textStruct[i].name << endl;
+    // }
+
     // for(int i=0;i<size;i++){
     //     cout << textStruct[i].type << endl;
     // }
-
 
     delete [] textStruct;
     return 0;
