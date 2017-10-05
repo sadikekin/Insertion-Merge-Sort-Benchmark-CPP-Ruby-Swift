@@ -1,10 +1,15 @@
-#include "SortingClass.cpp"
+#include "SortingAlgorithm.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdlib.h>
+#include <algorithm>
+#include <string.h>
+#include <ctime>
 using namespace std;
 
 int main(int argc, const char * argv[]) {
+    clock_t begin = clock();
     if(argc != 5) {
         cout << "Wrong number of arguments!" << endl;
         return 0;
@@ -86,7 +91,10 @@ int main(int argc, const char * argv[]) {
         type = temp;
         k++;
 
-        cost += line[k];
+        cost = line[k];
+        if(line[k+1] != '\n' || line[k+1] != '\t'){
+            cost += line[k+1];
+        }
 
         // adding splited values to the array
         textStruct[counterForArray].name = name;
@@ -115,19 +123,18 @@ int main(int argc, const char * argv[]) {
 
     if (myfile.is_open())
     {
-      for(int i=0;i<size;i++){
-          myfile << textStruct[i].name << "\t" << textStruct[i].className << "\t" << textStruct[i].cost << "\t" << textStruct[i].type << "\t" << textStruct[i].set << "\t" << textStruct[i].cost << endl;
-      }
-      myfile.close();
+        for(int i=0;i<size;i++){
+            myfile << textStruct[i].name << "\t" << textStruct[i].className << "\t" << textStruct[i].rarity << "\t" << textStruct[i].set << "\t" << textStruct[i].type << "\t" << textStruct[i].cost << endl;
+        }
+        myfile.close();
     }
-    // for(int i=0;i<size;i++){
-    //     cout << textStruct[i].className << " - " << textStruct[i].cost<< " - "<< textStruct[i].name << endl;
-    // }
 
-    // for(int i=0;i<size;i++){
-    //     cout << textStruct[i].type << endl;
-    // }
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    
+    cout << "Time elapsed: " << elapsed_secs << " secs" << endl;
 
     delete [] textStruct;
     return 0;
 }
+
