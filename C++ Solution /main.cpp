@@ -1,3 +1,5 @@
+// I take segmentation fault on ssh 
+
 #include "SortingAlgorithm.hpp"
 #include <iostream>
 #include <fstream>
@@ -35,14 +37,14 @@ int main(int argc, const char * argv[]) {
     string inputFileName = argv[3];
     string outputFileName = argv[4];
 
-    file.open(inputFileName);
+    file.open(inputFileName.c_str());
     // opening the text file for size
     while(getline(file,line)){
         size++;
     }
 
     file.close();
-    file.open(inputFileName);
+    file.open(inputFileName.c_str());
     inputTextStruct *textStruct = new inputTextStruct[size];
     // This whole while splits the string from line. Puts those splited substrings to array(inputArray)
     while (getline(file, line)){
@@ -119,7 +121,7 @@ int main(int argc, const char * argv[]) {
 
 
 
-    ofstream myfile(outputFileName);
+    ofstream myfile(outputFileName.c_str());
 
     if (myfile.is_open())
     {
