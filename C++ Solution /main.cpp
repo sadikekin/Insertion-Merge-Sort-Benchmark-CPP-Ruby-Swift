@@ -1,5 +1,3 @@
-// I take segmentation fault on ssh 
-
 #include "SortingAlgorithm.hpp"
 #include <iostream>
 #include <fstream>
@@ -11,7 +9,6 @@
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    clock_t begin = clock();
     if(argc != 5) {
         cout << "Wrong number of arguments!" << endl;
         return 0;
@@ -112,17 +109,15 @@ int main(int argc, const char * argv[]) {
 
     // Creating the object from sorting class
     CardManager letsSort(isMergeSort); // mergeSort value goes to the class
-
+    clock_t begin = clock();
     if(isFilter) {
-        letsSort.filterShort(textStruct,size);
+        letsSort.filterShort(textStruct,size-1);
     }else {
-        letsSort.fullShort(textStruct,size);
+        letsSort.fullShort(textStruct,size-1);
     }
-
-
+    clock_t end = clock();
 
     ofstream myfile(outputFileName.c_str());
-
     if (myfile.is_open())
     {
         for(int i=0;i<size;i++){
@@ -131,12 +126,11 @@ int main(int argc, const char * argv[]) {
         myfile.close();
     }
 
-    clock_t end = clock();
+
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-    
+
     cout << "Time elapsed: " << elapsed_secs << " secs" << endl;
 
     delete [] textStruct;
     return 0;
 }
-

@@ -3,7 +3,9 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+
 using namespace std;
+
 
 void insertionSort(inputTextStruct * structInput, int structInputLength, bool isFullShort){
     if(isFullShort){
@@ -13,58 +15,31 @@ void insertionSort(inputTextStruct * structInput, int structInputLength, bool is
             counter = i - 1;
             keyPosition = i;
             // Going backwards from counter(i)
+            inputTextStruct currentElement  = structInput[keyPosition];
             while (counter >= 0) {
-                // doing this for finding different char!
-                int c = 0;
-                string compareOne = structInput[counter].className;
-                string compareTwo = structInput[keyPosition].className;
-                
+
                 // Swaping two with condition
-                if(compareOne > compareTwo) {
-                    // storing the struct element
-                    inputTextStruct tempStuct = structInput[counter];
-                    
-                    // changing first struct with another one
-                    structInput[counter] = structInput[keyPosition];
-                    
-                    // changing second set with temps
-                    structInput[keyPosition] = tempStuct;
+                if(structInput[counter].className > currentElement.className) {
+                    structInput[keyPosition] = structInput[counter];
                     keyPosition--;
                     // if classes of the elements are same we gonna check cost
-                }else if(structInput[counter].className == structInput[keyPosition].className){
+                }else if(structInput[counter].className == currentElement.className){
                     // This is for cost
                     int compareOne = atoi(structInput[counter].cost.c_str());
-                    int compareTwo = atoi(structInput[keyPosition].cost.c_str());
-                
-                    
+                    int compareTwo = atoi(currentElement.cost.c_str());
+
+
 
                     // Swaping two with condition
                     if(compareOne > compareTwo) {
-                        // storing the struct elements
-                        inputTextStruct tempStuct = structInput[counter];
-                        
-                        // changing first struct with another one
-                        structInput[counter] = structInput[keyPosition];
-                        
-                        // changing second set with temps
-                        structInput[keyPosition] = tempStuct;
+                        structInput[keyPosition] = structInput[counter];
                         keyPosition--;
-                        
+
                     }else if(compareOne == compareTwo){
-                        // this is for name
-                        int c = 0;
-                        string compareOne = structInput[counter].name;
-                        string compareTwo = structInput[keyPosition].name;
-                        
+
                         // Swaping two with condition
-                        if(compareOne > compareTwo) {
-                            inputTextStruct tempStuct = structInput[counter];
-                            
-                            // changing first struct with another one
-                            structInput[counter] = structInput[keyPosition];
-                            
-                            // changing second set with temps
-                            structInput[keyPosition] = tempStuct;
+                        if(structInput[counter].name > currentElement.name) {
+                            structInput[keyPosition] = structInput[counter];
                             keyPosition--;
                         }else{
                             break;
@@ -77,31 +52,27 @@ void insertionSort(inputTextStruct * structInput, int structInputLength, bool is
                 }
                 counter--;
             }
+            structInput[keyPosition] = currentElement;
         }
-    }else{
+    }else {
         int keyPosition, counter;
         // iterating through all array
         for(int i=0;i<structInputLength;i++){
             counter = i - 1;
             keyPosition = i;
             // Going backwards from counter(i)
+            inputTextStruct currentElement  = structInput[keyPosition];
             while (counter >= 0) {
                 // Swaping two with condition
-                if(structInput[counter].type > structInput[keyPosition].type) {
-                    // storing the struct elements
-                    inputTextStruct tempStuct = structInput[counter];
-                    
-                    // changing first struct with another one
-                    structInput[counter] = structInput[keyPosition];
-                    
-                    // changing second set with temps
-                    structInput[keyPosition] = tempStuct;
+                if(structInput[counter].type > currentElement.type) {
+                    structInput[keyPosition] = structInput[counter];
                     keyPosition--;
                 }else{
                     break;
                 }
                 counter--;
             }
+            structInput[keyPosition] = currentElement;
         }
     }
 }
@@ -112,20 +83,19 @@ void combineElementsWithFilter(inputTextStruct * structInput, int lowestValue, i
     i = lowestValue;
     k = 0;
     j = middleValue + 1;
-    
+
     // Making a binary tree
     while (i <= middleValue && j <= highestValue) {
         if (structInput[i].type > structInput[j].type) {
             temp[k] = structInput[j];
-            k++;
             j++;
         }else {
             temp[k] = structInput[i];
-            k++;
             i++;
         }
+        k++;
     }
-    
+
     // Putting extra values if there are some
     while (i <= middleValue) {
         temp[k] = structInput[i];
@@ -137,7 +107,7 @@ void combineElementsWithFilter(inputTextStruct * structInput, int lowestValue, i
         k++;
         j++;
     }
-    
+
     // Merging the struct array.
     for (i = lowestValue; i <= highestValue; i++) {
         structInput[i] = temp[i-lowestValue];
@@ -151,15 +121,15 @@ void combineElementsWithFull(inputTextStruct * structInput, int lowestValue, int
     a = lowestValue;
     k = 0;
     b = middleValue + 1;
-    
+
     // Making a binary tree
     while (a <= middleValue && b <= highestValue) {
-        
+
         int c = 0;
         string compareOne = structInput[a].className;
         string compareTwo = structInput[b].className;
-        
-        
+
+
         if (compareOne > compareTwo) {
             temp[k] = structInput[b];
             k++;
@@ -194,7 +164,7 @@ void combineElementsWithFull(inputTextStruct * structInput, int lowestValue, int
             a++;
         }
     }
-    
+
     // Putting extra values if there are some
     while (a <= middleValue) {
         temp[k] = structInput[a];
@@ -206,7 +176,7 @@ void combineElementsWithFull(inputTextStruct * structInput, int lowestValue, int
         k++;
         b++;
     }
-    
+
     // Merging the struct array.
     for (int i = lowestValue; i <= highestValue; i++) {
         structInput[i] = temp[i-lowestValue];
@@ -219,15 +189,16 @@ void mergeSortFilter(inputTextStruct * structInput,int lowestValue, int highestV
 {
     if (lowestValue < highestValue )
     {
-        int middleValue=(lowestValue+highestValue)/2;
+        int middleValue= (lowestValue+highestValue)/2;
         // Making binary tree for values
         mergeSortFilter(structInput, lowestValue, middleValue);
         mergeSortFilter(structInput, middleValue+1, highestValue);
-        
+
         // Combining them with a order
         combineElementsWithFilter(structInput, lowestValue, highestValue, middleValue);
     }
 }
+
 void mergeSortFull(inputTextStruct * structInput,int lowestValue, int highestValue)
 {
     if (lowestValue < highestValue )
@@ -236,7 +207,7 @@ void mergeSortFull(inputTextStruct * structInput,int lowestValue, int highestVal
         // Making binary tree for values
         mergeSortFull(structInput, lowestValue, middleValue);
         mergeSortFull(structInput, middleValue+1, highestValue);
-        
+
         // Combining them with a order
         combineElementsWithFull(structInput, lowestValue, highestValue, middleValue);
 
@@ -258,7 +229,7 @@ void CardManager::fullShort(inputTextStruct *structToShort, int structLength) {
         mergeSortFull(structToShort,0,structLength);
     }else{
         // run insertionsort for arrayto short
-        insertionSort(structToShort, structLength, true);
+        insertionSort(structToShort, structLength+1, true);
     }
 }
 void CardManager::filterShort(inputTextStruct *structToShort, int structLength) {
@@ -267,8 +238,6 @@ void CardManager::filterShort(inputTextStruct *structToShort, int structLength) 
         mergeSortFilter(structToShort,0,structLength);
     }else{
         // run insertionsort for arrayto short
-        insertionSort(structToShort, structLength, false);
+        insertionSort(structToShort, structLength+1, false);
     }
 }
-
-
