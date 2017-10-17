@@ -1,6 +1,6 @@
 import Foundation
 
-let programStart = Date()
+
 // Input variables you can change those variables
 var file = "hs-set-10k.txt"
 var isMergeSort = true
@@ -17,7 +17,6 @@ if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMa
 
     //reading from the file
     do {
-        print("You gotta put file named <\(file)> on this directory -> <\(dir)>")
         let allInput = try String(contentsOf: fileURL, encoding: .utf8)
         let tempArrayAllLines = allInput.components(separatedBy: "\r\n")
 
@@ -30,6 +29,7 @@ if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMa
         }
     }
     catch {
+        print("You gotta put file named <\(file)> on this directory -> <\(dir)>")
         print(error)
     }
 }
@@ -131,6 +131,8 @@ func mergeSortFilter(_ array: [(name: String, className: String, rarity: String,
     return array
 }
 
+let programStart = Date()
+
 if isFullSort && isMergeSort{
     // Full sort with merge
     sortedArray = mergeSortFull(cards)
@@ -149,13 +151,12 @@ if isFullSort && isMergeSort{
         while counterTwo >= 0 {
             // When key is smaller change the key with the other number
             if (cards[counterTwo].type > key.type){
-                let temp = cards[counterTwo]
-                cards[counterTwo] = key
-                cards[keyPosition] = temp
+                cards[keyPosition] = cards[counterTwo]
                 keyPosition -= 1
             }
             counterTwo -= 1
         }
+        cards[keyPosition] = key
         counterOne += 1
     }
     sortedArray = cards
@@ -171,32 +172,27 @@ if isFullSort && isMergeSort{
         while counterTwo >= 0 {
             // When key is smaller change the key with the other number
             if (cards[counterTwo].className > key.className){
-                let temp = cards[counterTwo]
-                cards[counterTwo] = key
-                cards[keyPosition] = temp
+                cards[keyPosition] = cards[counterTwo]
                 keyPosition -= 1
             }else if (cards[counterTwo].className == key.className) {
                 if (Int(cards[counterTwo].cost)! > Int(key.cost)!){
-                    let temp = cards[counterTwo]
-                    cards[counterTwo] = key
-                    cards[keyPosition] = temp
+                    cards[keyPosition] = cards[counterTwo]
                     keyPosition -= 1
                 }else if (Int(cards[counterTwo].cost)! == Int(key.cost)!) {
                     if (cards[counterTwo].name > key.name){
-                        let temp = cards[counterTwo]
-                        cards[counterTwo] = key
-                        cards[keyPosition] = temp
+                        cards[keyPosition] = cards[counterTwo]
                         keyPosition -= 1
                     }
                 }
             }
             counterTwo -= 1
         }
+        cards[keyPosition] = key
         counterOne += 1
     }
     sortedArray = cards
 }
-
+let programFinish = Date()
 
 
 if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
@@ -219,7 +215,7 @@ if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMa
     }
 }
 
-let programFinish = Date()
+
 let executionTime = programFinish.timeIntervalSince(programStart)
 print("Execution time: \(executionTime), is Full sort type: \(isFullSort), is Merge sort: \(isMergeSort)")
 

@@ -1,8 +1,8 @@
 
-startTime = Time.now
+
 #Defining the constants
 isMergeSort = true
-isFullSort = false
+isFullSort = true
 inputFileName = 'hs-set-10k.txt'
 outputFileName = 'hs-set-10k-output.txt'
 
@@ -116,7 +116,7 @@ def mergeSortFilter(array)
   return array
 end
 
-
+startTime = Time.now
 if (isMergeSort && isFullSort)
     sortedCards = mergeSortFull(storedCards)
 
@@ -172,6 +172,7 @@ else
   sortedCards = storedCards
 
 end
+endTime = Time.now
 
 # write to a file
 File.open(outputFileName, 'w') { |file|
@@ -182,6 +183,6 @@ File.open(outputFileName, 'w') { |file|
   file.write(text)
 }
 
-endTime = Time.now
+
 
 puts "Running time is #{(endTime - startTime)} secs"
